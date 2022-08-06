@@ -1,0 +1,66 @@
+name: CI Build
+on:
+  push:
+    branches: ['*']
+env:
+  REVISION: '${{ github.sha }}'
+  BRANCH: '${{ github.ref_name }}'
+jobs:
+  build_container:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Log into GiHub Container Registry
+        run: docker login -u "${{ github.actor }}" -p "${{ secrets.GITHUB_TOKEN }}" ghcr.io
+      - name: Build container
+        run: 'docker build -t ghcr.io/${{ github.repository }}:${{ github.ref_name }}-${{ github.sha }} .'
+      - name: Push container
+        run: 'docker push ghcr.io/${{ github.repository }}:${{ github.ref_name }}-${{ github.sha }}'
+      - name: Tag container as dev
+        if: github.ref_name == 'master'
+        run: |-
+          docker tag ghcr.io/${{ github.repository }}:${{ github.ref_name }}-${{ github.sha }} ghcr.io/${{ github.repository }}:dev
+          docker push ghcr.io/${{ github.repository }}:dev
+  build_executables:
+    runs-on: ubuntu-latest
+    container: 'golang:1.19-alpine'
+    strategy:
+      matrix:
+        platform:
+          - 'linux   386   0      '
+          - 'linux   amd64 0      '
+          - 'linux   arm64 0      '
+          - 'linux   arm   0      '
+          - 'darwin  amd64 0      '
+          - 'darwin  arm64 0      '
+          - 'windows amd64 0 .exe '
+    steps:
+      - name: Install dependencies
+        run: apk add --no-cache make bash
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Build executable
+        shell: bash
+        run: |
+          IFS=" " read -r GOOS GOARCH CGO_ENABLED GO_EXT <<< "${{ matrix.platform }}"
+          export GOOS GOARCH CGO_ENABLED GO_EXT
+          export ARTIFACT_NAME="gobetween${GO_EXT}"
+          make deps dist-single
+          echo "ARTIFACT_NAME=${ARTIFACT_NAME}" >> $GITHUB_ENV
+          echo "GOOS=${GOOS}" >> $GITHUB_ENV
+          echo "GOARCH=${GOARCH}" >> $GITHUB_ENV
+      - name: Store artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: '${{ env.GOOS }}_${{ env.GOARCH }}'
+          path: |
+            README.md
+            CHANGELOG.md
+            AUTHORS
+            LICENSE
+            ${{ env.ARTIFACT_NAME }}
