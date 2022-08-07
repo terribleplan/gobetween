@@ -11,8 +11,6 @@ export GO111MODULE=on
 
 NAME := gobetween
 VERSION := $(shell cat VERSION)
-REVISION := $(shell git rev-parse HEAD 2>/dev/null)
-BRANCH := $(shell git symbolic-ref --short HEAD 2>/dev/null)
 
 LDFLAGS := \
   -X main.version=${VERSION} \
@@ -56,7 +54,7 @@ authors:
 	@git log --format='%aN <%aE>' | LC_ALL=C.UTF-8 sort | uniq -c -i | sort -nr | sed "s/^ *[0-9]* //g" > AUTHORS
 	@cat AUTHORS
 
-deps: 
+deps:
 	go mod download
 
 clean-dist:
@@ -87,6 +85,9 @@ dist:
 			cd $$distpath && zip -r ../../${NAME}_${VERSION}_$$1_$$2.zip . && cd - ;\
 		fi \
 	done
+
+dist-single:
+	go build -v -a -tags netgo -o ${ARTIFACT_NAME} -ldflags='-s -w --extldflags "-static" ${LDFLAGS}' .
 
 docker:
 	@echo Building docker container LATEST
