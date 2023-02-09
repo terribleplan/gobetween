@@ -3,8 +3,8 @@ module github.com/yyyar/gobetween
 go 1.14
 
 require (
+	github.com/BurntSushi/toml v0.3.1
 	github.com/armon/go-metrics v0.3.3 // indirect
-	github.com/burntsushi/toml v0.3.1
 	github.com/containerd/containerd v1.3.6 // indirect
 	github.com/containerd/continuity v0.0.0-20200706134602-f1c9af8e2a20 // indirect
 	github.com/elgs/gojq v0.0.0-20160421194050-81fa9a608a13
@@ -13,8 +13,7 @@ require (
 	github.com/flosch/pongo2 v0.0.0-20200529170236-5abacdfa4915 // indirect
 	github.com/fsouza/go-dockerclient v1.6.6-0.20200611205848-6aaf6c2d625c
 	github.com/gin-contrib/cors v1.3.1
-	github.com/gin-gonic/gin v1.6.3
-	github.com/go-playground/validator/v10 v10.3.0 // indirect
+	github.com/gin-gonic/gin v1.7.7
 	github.com/google/gopacket v1.1.17 // indirect
 	github.com/gorilla/websocket v1.4.2 // indirect
 	github.com/hashicorp/consul/api v1.5.0
