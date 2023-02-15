@@ -3,8 +3,8 @@ module github.com/yyyar/gobetween
 go 1.14
 
 require (
+	github.com/BurntSushi/toml v0.3.1
 	github.com/armon/go-metrics v0.3.3 // indirect
-	github.com/burntsushi/toml v0.3.1
 	github.com/containerd/containerd v1.3.6 // indirect
 	github.com/containerd/continuity v0.0.0-20200706134602-f1c9af8e2a20 // indirect
 	github.com/elgs/gojq v0.0.0-20160421194050-81fa9a608a13
@@ -36,7 +36,7 @@ require (
 	github.com/moby/sys/mountinfo v0.1.3 // indirect
 	github.com/moby/term v0.0.0-20200611042045-63b9a826fb74 // indirect
 	github.com/opencontainers/go-digest v1.0.0 // indirect
-	github.com/pires/go-proxyproto v0.1.3
+	github.com/pires/go-proxyproto v0.6.1
 	github.com/prometheus/client_golang v1.7.1
 	github.com/rogpeppe/fastuuid v1.2.0 // indirect
 	github.com/sirupsen/logrus v1.6.0
