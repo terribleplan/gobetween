@@ -96,7 +96,7 @@ require (
 	golang.org/x/net v0.0.0-20220805013720-a33c5aa5df48 // indirect
 	golang.org/x/sys v0.0.0-20220804214406-8e32c043e418 // indirect
 	golang.org/x/term v0.0.0-20220722155259-a9ba230a4035 // indirect
-	golang.org/x/text v0.3.7 // indirect
+	golang.org/x/text v0.3.8 // indirect
 	golang.org/x/tools v0.1.12 // indirect
 	google.golang.org/protobuf v1.28.1 // indirect
 	gopkg.in/errgo.v1 v1.0.1 // indirect
